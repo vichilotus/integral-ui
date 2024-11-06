@@ -5,6 +5,7 @@ import USDTLogo from '@/assets/tokens/usdt.png'
 import USDCLogo from '@/assets/tokens/usdc.svg'
 import WBTCLogo from '@/assets/tokens/wbtc.svg'
 import EtherLogo from '@/assets/tokens/ether.svg'
+import FuseLogo from '@/assets/tokens/fuse.png'
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -32,6 +33,10 @@ export const specialTokens: { [key: Address]: { symbol: string; logo: string } }
     ['0x6581e59a1c8da66ed0d313a0d4029dce2f746cc5']: {
         symbol: 'USDC',
         logo: USDCLogo
+    },
+    ['0x0BE9e53fd7EDaC9F859882AfdDa116645287C629']: {
+        symbol: 'FUSE',
+        logo: FuseLogo
     }
 }
 
@@ -49,7 +54,7 @@ const CurrencyLogo = ({ currency, size, className, style = {} }: CurrencyLogoPro
     }
 
     if (currency.isNative) {
-        return <img src={WBTCLogo} alt={'ETH'} width={size} height={size} className={classString} style={style} />
+        return <img src={FuseLogo} alt={'FUSE'} width={size} height={size} className={classString} style={style} />
     }
 
     return <div className={`${classString} flex items-center justify-center bg-white text-black`} style={{ minWidth: `${size}px`, minHeight: `${size}px`, width: `${size}px`, height: `${size}px`, ...style }}>
