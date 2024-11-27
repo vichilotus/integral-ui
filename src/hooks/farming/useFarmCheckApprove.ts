@@ -1,9 +1,12 @@
 import { useAlgebraPositionManagerFarmingApprovals } from '@/generated';
 import { ADDRESS_ZERO } from '@cryptoalgebra/sdk';
 import { useEffect, useState } from 'react';
+import { useChainId } from 'wagmi';
 
 export function useFarmCheckApprove(tokenId: bigint) {
     const [approved, setApproved] = useState<boolean>();
+
+    const chainId = useChainId()
 
     const {
         data,
@@ -11,6 +14,7 @@ export function useFarmCheckApprove(tokenId: bigint) {
         refetch,
     } = useAlgebraPositionManagerFarmingApprovals({
         args: [tokenId],
+        chainId: chainId as AlgebraChainId
     });
 
     useEffect(() => {

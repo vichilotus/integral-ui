@@ -1,10 +1,15 @@
 import { useAlgebraPositionManagerTokenUri } from "@/generated";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
+import { useChainId } from "wagmi";
 
 export const FarmingPositionImg = ({ positionId, size, className }: { positionId: bigint; size: number; className?: string }) => {
+    
+    const chainId = useChainId()
+    
     const { data: uri } = useAlgebraPositionManagerTokenUri({
         args: [positionId],
+        chainId: chainId as AlgebraChainId
     });
 
     const imgRef = useRef<any>();

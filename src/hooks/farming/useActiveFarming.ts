@@ -20,7 +20,7 @@ export function useActiveFarming({
 
     const [farmingInfo, setFarmingInfo] = useState<Farming | null>();
 
-    const { farmingClient } = useClients();
+    const { infoClient, farmingClient } = useClients();
 
     const { data: farmings, loading: isFarmingLoading } =
         useEternalFarmingsQuery({
@@ -40,6 +40,7 @@ export function useActiveFarming({
         variables: {
             tokenId: activeFarming?.rewardToken,
         },
+        client: infoClient
     });
 
     const { data: bonusRewardToken } = useSingleTokenQuery({
@@ -47,6 +48,7 @@ export function useActiveFarming({
         variables: {
             tokenId: activeFarming?.bonusRewardToken,
         },
+        client: infoClient
     });
 
     const { data: deposits, loading: areDepositsLoading } = useDepositsQuery({

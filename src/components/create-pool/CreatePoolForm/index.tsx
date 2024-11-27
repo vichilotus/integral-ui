@@ -9,7 +9,7 @@ import {
 } from '@cryptoalgebra/sdk';
 import { usePrepareAlgebraPositionManagerMulticall } from '@/generated';
 import { useTransactionAwait } from '@/hooks/common/useTransactionAwait';
-import { Address, useContractWrite } from 'wagmi';
+import { Address, useChainId, useContractWrite } from 'wagmi';
 import { useDerivedMintInfo, useMintState } from '@/state/mintStore';
 import Loader from '@/components/common/Loader';
 import { PoolState, usePool } from '@/hooks/pools/usePool';
@@ -24,6 +24,8 @@ const CreatePoolForm = () => {
     const { actions: { selectCurrency } } = useSwapState();
 
     const { startPriceTypedValue, actions: { typeStartPriceInput } } = useMintState()
+
+    const chainId = useChainId()
 
     const currencyA = currencies[SwapField.INPUT];
     const currencyB = currencies[SwapField.OUTPUT];
@@ -71,6 +73,7 @@ const CreatePoolForm = () => {
                 : [[calldata] as Address[]],
             value: BigInt(value || 0),
             enabled: Boolean(calldata),
+            chainId: chainId as AlgebraChainId
         });
 
 
@@ -95,7 +98,7 @@ const CreatePoolForm = () => {
 
         return () => {
             selectCurrency(SwapField.INPUT, ADDRESS_ZERO)
-            selectCurrency(SwapField.OUTPUT, STABLECOINS.USDT.address as Account)
+            selectCurrency(SwapField.OUTPUT, STABLECOINS[chainId].USDT.address as Account)
             typeStartPriceInput('')
         }
     }, [])

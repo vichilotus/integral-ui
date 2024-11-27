@@ -2,7 +2,7 @@ import { MAX_UINT128 } from "@/constants/max-uint128"
 import { useAlgebraPositionManagerOwnerOf, usePrepareAlgebraPositionManagerCollect } from "@/generated"
 import { Currency, CurrencyAmount, Pool, unwrappedToken } from "@cryptoalgebra/sdk"
 import { useMemo } from "react"
-import { Address } from "wagmi"
+import { Address, useChainId } from "wagmi"
 
 interface PositionFeesResult {
     amount0: CurrencyAmount<Currency> | undefined
@@ -15,8 +15,11 @@ export function usePositionFees(
     asWNative = false
 ): PositionFeesResult {
 
+    const chainId = useChainId()
+
     const { data: owner } = useAlgebraPositionManagerOwnerOf({
         args: tokenId ? [BigInt(tokenId)] : undefined,
+        chainId: chainId as AlgebraChainId
     })
 
     const isReady = tokenId && owner;
@@ -30,7 +33,8 @@ export function usePositionFees(
                 amount1Max: MAX_UINT128,
             }
         ] : undefined,
-        enabled: Boolean(isReady)
+        enabled: Boolean(isReady),
+        chainId: chainId as AlgebraChainId
     })
 
     const amounts = amountsConfig?.result

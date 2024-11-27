@@ -6,16 +6,19 @@ import {
 import { usePoolsStore } from '@/state/poolsStore';
 import { ADDRESS_ZERO } from '@cryptoalgebra/sdk';
 import { useEffect } from 'react';
-import { Address } from 'wagmi';
+import { Address, useChainId } from 'wagmi';
 
 export function usePoolPlugins(poolId: Address | undefined) {
     const { pluginsForPools, setPluginsForPool } = usePoolsStore();
 
+    const chainId = useChainId()
+    
     const skipFetch = Boolean(poolId && pluginsForPools[poolId]);
 
     const { data: globalState, isLoading: globalStateLoading } =
         useAlgebraPoolGlobalState({
             address: skipFetch ? undefined : poolId,
+            chainId: chainId as AlgebraChainId
         });
 
     const { data: plugin, isLoading: pluginLoading } = useAlgebraPoolPlugin({
@@ -25,6 +28,7 @@ export function usePoolPlugins(poolId: Address | undefined) {
     const { data: hasFarmingPlugin, isLoading: farmingLoading } =
         useAlgebraBasePluginIncentive({
             address: skipFetch ? undefined : plugin,
+            chainId: chainId as AlgebraChainId
         });
 
     // const { data: hasLimitOrderPlugin, isLoading: limitLoading } =

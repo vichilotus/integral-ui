@@ -1,10 +1,7 @@
 import Loader from '@/components/common/Loader';
 import { Button } from '@/components/ui/button';
 import { ALGEBRA_POSITION_MANAGER } from '@/constants/addresses';
-import {
-    DEFAULT_CHAIN_ID,
-    DEFAULT_CHAIN_NAME,
-} from '@/constants/default-chain-id';
+import { DEFAULT_CHAIN_NAME } from '@/constants/default-chain-id';
 import { usePrepareAlgebraPositionManagerMulticall } from '@/generated';
 import { useApprove } from '@/hooks/common/useApprove';
 import { useTransactionAwait } from '@/hooks/common/useTransactionAwait';
@@ -15,6 +12,7 @@ import { useUserState } from '@/state/userStore';
 import { ApprovalState } from '@/types/approve-state';
 import {
   ADDRESS_ZERO,
+  ChainId,
   Currency,
   Field,
   NonfungiblePositionManager,
@@ -24,7 +22,7 @@ import {
 import { useWeb3Modal, useWeb3ModalState } from '@web3modal/wagmi/react';
 import JSBI from 'jsbi';
 import { useEffect, useMemo } from 'react';
-import { Address, useAccount, useContractWrite } from 'wagmi';
+import { Address, useAccount, useChainId, useContractWrite } from 'wagmi';
 
 interface IncreaseLiquidityButtonProps {
     baseCurrency: Currency | undefined | null;
@@ -49,6 +47,7 @@ export const IncreaseLiquidityButton = ({
     const { open } = useWeb3Modal();
 
     const { selectedNetworkId } = useWeb3ModalState();
+    const chainId = useChainId()
 
     const { txDeadline } = useUserState();
 
@@ -86,14 +85,14 @@ export const IncreaseLiquidityButton = ({
         approvalCallback: approvalCallbackA,
     } = useApprove(
         mintInfo.parsedAmounts[Field.CURRENCY_A],
-        ALGEBRA_POSITION_MANAGER
+        ALGEBRA_POSITION_MANAGER[chainId]
     );
     const {
         approvalState: approvalStateB,
         approvalCallback: approvalCallbackB,
     } = useApprove(
         mintInfo.parsedAmounts[Field.CURRENCY_B],
-        ALGEBRA_POSITION_MANAGER
+        ALGEBRA_POSITION_MANAGER[chainId]
     );
 
     const showApproveA =
@@ -122,6 +121,7 @@ export const IncreaseLiquidityButton = ({
             args: calldata && [calldata as `0x${string}`[]],
             enabled: Boolean(calldata && isReady && tokenId),
             value: BigInt(value || 0),
+            chainId: chainId as AlgebraChainId
         });
 
     const { data: increaseLiquidityData, write: increaseLiquidity } =
@@ -144,7 +144,7 @@ export const IncreaseLiquidityButton = ({
             .then(() => handleCloseModal?.());
     }, [isSuccess]);
 
-    const isWrongChain = selectedNetworkId !== DEFAULT_CHAIN_ID;
+    const isWrongChain = !selectedNetworkId || ![ChainId.BitlayerTestnet, ChainId.BitlayerMainnet].includes(selectedNetworkId);
 
     if (!account) return <Button onClick={() => open()}>Connect Wallet</Button>;
 
@@ -153,7 +153,7 @@ export const IncreaseLiquidityButton = ({
             <Button
                 variant={'destructive'}
                 onClick={() => open({ view: 'Networks' })}
-            >{`Connect to ${DEFAULT_CHAIN_NAME}`}</Button>
+            >{`Connect to ${DEFAULT_CHAIN_NAME[ChainId.BitlayerMainnet]}`}</Button>
         );
 
     if (mintInfo.errorMessage)

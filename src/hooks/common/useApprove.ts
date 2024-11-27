@@ -3,7 +3,7 @@ import { Currency, CurrencyAmount, Percent, Trade, TradeType } from "@cryptoalge
 import { useNeedAllowance } from "./useNeedAllowance";
 import { ApprovalState, ApprovalStateType } from "@/types/approve-state";
 import { useMemo } from "react";
-import { Address, erc20ABI, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { Address, erc20ABI, useChainId, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { ALGEBRA_ROUTER } from "@/constants/addresses";
 import { useTransactionAwait } from "./useTransactionAwait";
 import { TransactionType } from "@/state/pendingTransactionsStore";
@@ -12,6 +12,8 @@ export function useApprove(amountToApprove: CurrencyAmount<Currency> | undefined
 
     const token = amountToApprove?.currency?.isToken ? amountToApprove.currency : undefined
     const needAllowance = useNeedAllowance(token, amountToApprove, spender)
+    
+    const chainId = useChainId()
 
     const approvalState: ApprovalStateType = useMemo(() => {
         if (!amountToApprove || !spender) return ApprovalState.UNKNOWN
@@ -27,7 +29,8 @@ export function useApprove(amountToApprove: CurrencyAmount<Currency> | undefined
         args: [
             spender,
             amountToApprove ? BigInt(amountToApprove.quotient.toString()) : 0,
-        ] as [Address, bigint]
+        ] as [Address, bigint],
+        chainId: chainId as AlgebraChainId
     })
 
     const { data: approvalData, writeAsync: approve } = useContractWrite(config);
@@ -53,9 +56,12 @@ export function useApproveCallbackFromTrade(
     trade: Trade<Currency, Currency, TradeType> | undefined,
     allowedSlippage: Percent
 ) {
+
+    const chainId = useChainId()
+
     const amountToApprove = useMemo(
         () => (trade && trade.inputAmount.currency.isToken ? trade.maximumAmountIn(allowedSlippage) : undefined),
         [trade, allowedSlippage]
     )
-    return useApprove(amountToApprove, ALGEBRA_ROUTER)
+    return useApprove(amountToApprove, ALGEBRA_ROUTER[chainId])
 }

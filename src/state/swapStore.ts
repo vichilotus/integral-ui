@@ -1,4 +1,3 @@
-import { STABLECOINS } from "@/constants/tokens"
 import { useAlgebraPoolGlobalState, useAlgebraPoolTickSpacing } from "@/generated"
 import { useCurrency } from "@/hooks/common/useCurrency"
 import { useBestTradeExactIn, useBestTradeExactOut } from "@/hooks/swap/useBestTrade"
@@ -9,7 +8,7 @@ import { ADDRESS_ZERO, Currency, CurrencyAmount, Percent, TickMath, Trade, Trade
 import JSBI from "jsbi"
 import { useCallback, useMemo } from "react"
 import { parseUnits } from "viem"
-import { Address, useAccount, useBalance } from "wagmi"
+import { Address, useAccount, useBalance, useChainId } from "wagmi"
 import { create } from "zustand"
 
 interface SwapState {
@@ -38,7 +37,7 @@ export const useSwapState = create<SwapState>((set, get) => ({
         currencyId: ADDRESS_ZERO
     },
     [SwapField.OUTPUT]: {
-        currencyId: STABLECOINS.USDT.address as Account
+        currencyId: undefined
     },
     wasInverted: false,
     lastFocusedField: SwapField.INPUT,
@@ -135,6 +134,8 @@ export function useDerivedSwapInfo(): {
 
     const { address: account } = useAccount()
 
+    const chainId = useChainId()
+
     const {
         independentField,
         typedValue,
@@ -204,11 +205,13 @@ export function useDerivedSwapInfo(): {
     }).toLowerCase() as Address
 
     const { data: globalState } = useAlgebraPoolGlobalState({
-        address: poolAddress
+        address: poolAddress,
+        chainId: chainId as AlgebraChainId
     })
 
     const { data: tickSpacing } = useAlgebraPoolTickSpacing({
-        address: poolAddress
+        address: poolAddress,
+        chainId: chainId as AlgebraChainId
     })
 
     return {

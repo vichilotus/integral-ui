@@ -1,6 +1,6 @@
 import { formatBalance } from '@/utils/common/formatBalance';
 import { Currency, Percent, Trade, TradeType } from "@cryptoalgebra/sdk";
-import { Address, useAccount, useContractWrite } from "wagmi";
+import { Address, useAccount, useChainId, useContractWrite } from "wagmi";
 import { useSwapCallArguments } from "./useSwapCallArguments";
 import { getAlgebraRouter, usePrepareAlgebraRouterMulticall } from "@/generated";
 import { useEffect, useMemo, useState } from "react";
@@ -38,6 +38,8 @@ export function useSwapCallback(
 
     const swapCalldata = useSwapCallArguments(trade, allowedSlippage)
 
+    const chainId = useChainId()
+
     useEffect(() => {
 
         async function findBestCall() {
@@ -46,7 +48,9 @@ export function useSwapCallback(
 
             setBestCall(undefined)
 
-            const algebraRouter = getAlgebraRouter({})
+            const algebraRouter = getAlgebraRouter({
+                chainId: chainId as AlgebraChainId
+            })
 
             const calls = await Promise.all(swapCalldata.map(({ calldata, value: _value }) => {
 
@@ -103,14 +107,15 @@ export function useSwapCallback(
 
         swapCalldata && findBestCall()
 
-    }, [swapCalldata, approvalState, account])
+    }, [swapCalldata, approvalState, account, chainId])
 
 
     const { config: swapConfig } = usePrepareAlgebraRouterMulticall({
         args: bestCall && [bestCall.calldata],
         value: BigInt(bestCall?.value || 0),
         enabled: Boolean(bestCall),
-        gas: bestCall ? bestCall.gasEstimate * (10000n + 2000n) / 10000n : undefined
+        gas: bestCall ? bestCall.gasEstimate * (10000n + 2000n) / 10000n : undefined,
+        chainId: chainId as AlgebraChainId
     })
 
     const { data: swapData, writeAsync: swapCallback } = useContractWrite(swapConfig)

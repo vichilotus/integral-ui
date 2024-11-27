@@ -2,10 +2,15 @@ import { Farming } from "@/types/farming-info";
 import { formatUnits } from "viem";
 import { formatAmount } from "@/utils/common/formatAmount";
 import { useAlgebraVirtualPoolRewardRates } from "@/generated";
+import { useChainId } from "wagmi";
 
 export function useFarmingRewardRates(farming: Farming) {
+
+    const chainId = useChainId()
+
     const { data: rates } = useAlgebraVirtualPoolRewardRates({
         address: farming.farming.virtualPool,
+        chainId: chainId as AlgebraChainId
     });
 
     const [rewardRate, bonusRewardRate] = rates || [0n, 0n];

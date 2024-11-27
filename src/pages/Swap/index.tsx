@@ -22,7 +22,7 @@ const SwapPage = () => {
                     <PoweredByAlgebra />
                 </div>
 
-                <div className="col-span-2">{/* <SwapChart /> */}</div>
+                {/* <div className="col-span-2"><SwapChart /></div> */}
             </div>
         </PageContainer>
     );

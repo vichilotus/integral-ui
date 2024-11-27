@@ -7,7 +7,7 @@ import { useAllTokens } from '@/hooks/tokens/useAllTokens';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FixedSizeList } from 'react-window';
 import { Address, isAddress } from 'viem';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount, useBalance, useChainId } from 'wagmi';
 import CurrencyLogo from '../CurrencyLogo';
 import {
     ADDRESS_ZERO,
@@ -41,8 +41,12 @@ const Search = ({
 }) => {
     const [query, setQuery] = useState<Address | string | undefined>(undefined);
     const debouncedQuery = useDebounce(query, 200);
+
+    const chainId = useChainId() 
+    
     const tokenEntity = useAlgebraToken(
-        debouncedQuery && isAddress(debouncedQuery) ? debouncedQuery : undefined
+        debouncedQuery && isAddress(debouncedQuery) ? debouncedQuery : undefined,
+        chainId
     );
 
     const fuseOptions = useMemo(
@@ -78,7 +82,7 @@ const Search = ({
             type="text"
             placeholder="Search name or paste address"
             autoComplete="off"
-            className="w-full text-white px-4 py-3 bg-card-dark rounded-xl border border-card-border"
+            className="w-full text-black px-4 py-3 bg-card-dark rounded-xl border border-card-border"
             onChange={(e) => handleInput(e.target.value)}
         />
     );

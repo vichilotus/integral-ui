@@ -2,15 +2,24 @@ import { STABLECOINS } from "@/constants/tokens"
 import { useNativePriceQuery, useSingleTokenQuery } from "@/graphql/generated/graphql"
 import { Currency, CurrencyAmount, Price, tryParseAmount } from "@cryptoalgebra/sdk"
 import { useMemo } from "react"
+import { useClients } from "../graphql/useClients"
+import { useChainId } from "wagmi"
 
 export function useUSDCPrice(currency: Currency | undefined) {
 
-    const { data: bundles } = useNativePriceQuery()
+    const { infoClient } = useClients()
+
+    const chainId = useChainId()
+
+    const { data: bundles } = useNativePriceQuery({
+        client: infoClient
+    })
 
     const { data: token } = useSingleTokenQuery({
         variables: {
             tokenId: currency ? currency.wrapped.address.toLowerCase() : ''
-        }
+        },
+        client: infoClient
     })
 
     return useMemo(() => {
@@ -20,8 +29,8 @@ export function useUSDCPrice(currency: Currency | undefined) {
             formatted: 0
         }
 
-        if (STABLECOINS.USDT.address.toLowerCase() === currency.wrapped.address.toLowerCase()) return {
-            price: new Price(STABLECOINS.USDT, STABLECOINS.USDT, '1', '1'),
+        if (STABLECOINS[chainId].USDT.address.toLowerCase() === currency.wrapped.address.toLowerCase()) return {
+            price: new Price(STABLECOINS[chainId].USDT, STABLECOINS[chainId].USDT, '1', '1'),
             formatted: 1
         }
 
@@ -31,7 +40,7 @@ export function useUSDCPrice(currency: Currency | undefined) {
 
         if (usdAmount) {
             return {
-                price: new Price(currency, STABLECOINS.USDT, usdAmount.denominator, usdAmount.numerator),
+                price: new Price(currency, STABLECOINS[chainId].USDT, usdAmount.denominator, usdAmount.numerator),
                 formatted: Number(usdAmount.toSignificant())
             }
         }
@@ -41,7 +50,7 @@ export function useUSDCPrice(currency: Currency | undefined) {
             formatted: 0
         }
 
-    }, [currency, bundles, token])
+    }, [currency, bundles, token, chainId])
 
 }
 

@@ -4,7 +4,6 @@ import { Address } from "wagmi";
 import USDTLogo from '@/assets/tokens/usdt.png'
 import USDCLogo from '@/assets/tokens/usdc.svg'
 import WBTCLogo from '@/assets/tokens/wbtc.svg'
-import EtherLogo from '@/assets/tokens/ether.svg'
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -15,30 +14,37 @@ interface CurrencyLogoProps {
     style?: React.CSSProperties
 }
 
-
 export const specialTokens: { [key: Address]: { symbol: string; logo: string } } = {
-    ['0x94373a4919b3240d86ea41593d5eba789fef3848']: {
-        symbol: 'ETH',
-        logo: EtherLogo
+    ['0xfe9f969faf8ad72a83b761138bf25de87eff9dd2']: {
+        symbol: 'USDT',
+        logo: USDTLogo
     },
     ['0x7d98346b3b000c55904918e3d9e2fc3f94683b01']: {
         symbol: 'USDT',
         logo: USDTLogo
     },
-    ['0x9dad8a1f64692adeb74aca26129e0f16897ff4bb']: {
+    ['0x38a5c36fa8c8c9e4649b51fcd61810b14e7ce047']: {
+        symbol: 'USDC',
+        logo: USDCLogo
+    },
+    ['0xf8c374ce88a3be3d374e8888349c7768b607c755']: {
+        symbol: 'USDC',
+        logo: USDCLogo
+    },
+    ['0x83f62399f2a417db8ad34a4fc54d58240fc898e9']: {
         symbol: 'WBTC',
         logo: WBTCLogo
     },
-    ['0x6581e59a1c8da66ed0d313a0d4029dce2f746cc5']: {
-        symbol: 'USDC',
-        logo: USDCLogo
+    ['0xff204e2681a6fa0e2c3fade68a1b28fb90e4fc5f']: {
+        symbol: 'WBTC',
+        logo: WBTCLogo
     }
 }
 
 
 const CurrencyLogo = ({ currency, size, className, style = {} }: CurrencyLogoProps) => {
 
-    if (!currency) return <Skeleton className={cn(`flex rounded-full bg-card-dark`, className)} style={{ minWidth: `${size}px`, minHeight: `${size}px`, width: `${size}px`, height: `${size}px`, ...style }} />
+    if (!currency) return <Skeleton className={cn(`flex rounded-full bg-muted-primary`, className)} style={{ minWidth: `${size}px`, minHeight: `${size}px`, width: `${size}px`, height: `${size}px`, ...style }} />
 
     const address = currency.wrapped.address.toLowerCase() as Address;
 
@@ -49,10 +55,10 @@ const CurrencyLogo = ({ currency, size, className, style = {} }: CurrencyLogoPro
     }
 
     if (currency.isNative) {
-        return <img src={WBTCLogo} alt={'ETH'} width={size} height={size} className={classString} style={style} />
+        return <img src={WBTCLogo} alt={'BTC'} width={size} height={size} className={classString} style={style} />
     }
 
-    return <div className={`${classString} flex items-center justify-center bg-white text-black`} style={{ minWidth: `${size}px`, minHeight: `${size}px`, width: `${size}px`, height: `${size}px`, ...style }}>
+    return <div className={`${classString} flex items-center justify-center bg-muted-primary text-black`} style={{ minWidth: `${size}px`, minHeight: `${size}px`, width: `${size}px`, height: `${size}px`, ...style }}>
         {currency.symbol?.slice(0, 2)}
     </div>
 

@@ -1,6 +1,6 @@
 import { useAlgebraPoolGlobalState, useAlgebraPoolLiquidity, useAlgebraPoolTickSpacing, useAlgebraPoolToken0, useAlgebraPoolToken1 } from "@/generated";
 import { ADDRESS_ZERO, Pool } from "@cryptoalgebra/sdk";
-import { Address } from "wagmi";
+import { Address, useChainId } from "wagmi";
 import { useCurrency } from "../common/useCurrency";
 import { useMemo } from "react";
 
@@ -15,21 +15,28 @@ export type PoolStateType = typeof PoolState[keyof typeof PoolState]
 
 export function usePool(address: Address | undefined): [PoolStateType, Pool | null] {
 
+  const chainId = useChainId()
+
   const { data: tickSpacing, isLoading: isTickSpacingLoading, isError: isTickSpacingError } = useAlgebraPoolTickSpacing({
     address,
+    chainId: chainId as AlgebraChainId
   })
   const { data: globalState, isLoading: isGlobalStateLoading, isError: isGlobalStateError } = useAlgebraPoolGlobalState({
-    address
+    address,
+    chainId: chainId as AlgebraChainId
   })
   const { data: liquidity, isLoading: isLiquidityLoading, isError: isLiquidityError } = useAlgebraPoolLiquidity({
-    address
+    address,
+    chainId: chainId as AlgebraChainId
   })
 
   const { data: token0Address, isLoading: isLoadingToken0, isError: isToken0Error } = useAlgebraPoolToken0({
-    address
+    address,
+    chainId: chainId as AlgebraChainId
   })
   const { data: token1Address, isLoading: isLoadingToken1, isError: isToken1Error } = useAlgebraPoolToken1({
-    address
+    address,
+    chainId: chainId as AlgebraChainId
   })
 
   const token0 = useCurrency(token0Address)

@@ -1,14 +1,14 @@
 import { FARMING_CENTER } from "@/constants/addresses";
 import { farmingCenterABI } from "@/generated";
-import { Address, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { Address, useChainId, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { encodeFunctionData } from "viem";
 import { MaxUint128 } from "@cryptoalgebra/sdk";
 import { useFarmCheckApprove } from "./useFarmCheckApprove";
 import { useEffect, useState } from "react";
-import { farmingClient } from "@/graphql/clients";
 import { Deposit } from "@/graphql/generated/graphql";
 import { TransactionType } from "@/state/pendingTransactionsStore";
 import { useTransactionAwait } from "../common/useTransactionAwait";
+import { useClients } from "../graphql/useClients";
 
 export function useFarmStake({
     tokenId,
@@ -27,7 +27,10 @@ export function useFarmStake({
 
     const [isQueryLoading, setIsQueryLoading] = useState<boolean>(false);
 
-    const address = tokenId && approved ? FARMING_CENTER : undefined;
+    const chainId = useChainId()
+    const { farmingClient } = useClients()
+
+    const address = tokenId && approved ? FARMING_CENTER[chainId] : undefined;
 
     const { config } = usePrepareContractWrite({
         address,
@@ -42,6 +45,7 @@ export function useFarmStake({
             },
             tokenId,
         ],
+        chainId: chainId as AlgebraChainId
     });
 
     const { data: data, writeAsync: onStake } = useContractWrite(config);
@@ -78,7 +82,7 @@ export function useFarmStake({
         );
 
         return () => clearInterval(interval);
-    }, [isSuccess]);
+    }, [isSuccess, farmingClient]);
 
     return {
         isLoading: isQueryLoading || isLoading,
@@ -132,11 +136,15 @@ export function useFarmUnstake({
 
     const calldatas = [exitFarmingCalldata, rewardClaimCalldata, bonusRewardClaimCalldata];
 
+    const chainId = useChainId()
+    const { farmingClient } = useClients()
+
     const { config } = usePrepareContractWrite({
-        address: account && tokenId ? FARMING_CENTER : undefined,
+        address: account && tokenId ? FARMING_CENTER[chainId] : undefined,
         abi: farmingCenterABI,
         functionName: "multicall",
         args: [calldatas],
+        chainId: chainId as AlgebraChainId
     });
 
     const { data: data, writeAsync: onUnstake } = useContractWrite(config);
@@ -173,7 +181,7 @@ export function useFarmUnstake({
         );
 
         return () => clearInterval(interval);
-    }, [isSuccess]);
+    }, [isSuccess, farmingClient]);
 
     return {
         isLoading: isLoading || isQueryLoading,

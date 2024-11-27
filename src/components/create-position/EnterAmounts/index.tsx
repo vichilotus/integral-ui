@@ -4,6 +4,7 @@ import { Currency,  Field, } from "@cryptoalgebra/sdk";
 import { useEffect, useMemo } from "react";
 import EnterAmountCard from "../EnterAmountsCard";
 import { ALGEBRA_POSITION_MANAGER } from "@/constants/addresses";
+import { useChainId } from "wagmi";
 
 interface EnterAmountsProps {
   currencyA: Currency | undefined;
@@ -12,6 +13,9 @@ interface EnterAmountsProps {
 }
 
 const EnterAmounts = ({ currencyA, currencyB, mintInfo }: EnterAmountsProps) => {
+  
+  const chainId = useChainId()
+  
   const { independentField, typedValue } = useMintState();
 
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(
@@ -61,13 +65,13 @@ const EnterAmounts = ({ currencyA, currencyB, mintInfo }: EnterAmountsProps) => 
   const allowanceA = useNeedAllowance(
     currencyA,
     mintInfo.parsedAmounts[Field.CURRENCY_B],
-    ALGEBRA_POSITION_MANAGER
+    ALGEBRA_POSITION_MANAGER[chainId]
   );
 
   const allowanceB = useNeedAllowance(
     currencyB,
     mintInfo.parsedAmounts[Field.CURRENCY_B],
-    ALGEBRA_POSITION_MANAGER
+    ALGEBRA_POSITION_MANAGER[chainId]
   );
 
   useEffect(() => {

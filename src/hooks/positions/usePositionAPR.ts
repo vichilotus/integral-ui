@@ -1,7 +1,8 @@
 import { useAlgebraPoolLiquidity } from "@/generated"
 import { useNativePriceQuery, usePoolFeeDataQuery, useSinglePoolQuery } from "@/graphql/generated/graphql"
 import { Position } from "@cryptoalgebra/sdk"
-import { Address } from "wagmi"
+import { Address, useChainId } from "wagmi"
+import { useClients } from "../graphql/useClients"
 
 export function usePositionAPR(
     poolId: Address | undefined,
@@ -9,23 +10,32 @@ export function usePositionAPR(
     positionId?: string | undefined
 ) {
 
+    const { infoClient } = useClients()
+
+    const chainId = useChainId()
+
     const { data: liquidity } = useAlgebraPoolLiquidity({
-        address: poolId
+        address: poolId,
+        chainId: chainId as AlgebraChainId
     })
 
     const { data: pool } = useSinglePoolQuery({
         variables: {
             poolId: poolId as string
-        }
+        },
+        client: infoClient
     })
 
     const { data: poolFeeData } = usePoolFeeDataQuery({
         variables: {
             poolId
-        }
+        },
+        client: infoClient
     })
 
-    const { data: bundles } = useNativePriceQuery()
+    const { data: bundles } = useNativePriceQuery({
+        client: infoClient
+    })
 
     const nativePrice = bundles?.bundles[0] && Number(bundles.bundles[0].maticPriceUSD)
 

@@ -4,21 +4,26 @@ import { useRewardEarnedUSD } from "./useRewardEarnedUSD";
 import { formatUnits } from "viem";
 import { EternalFarming, useSingleTokenQuery } from "@/graphql/generated/graphql";
 import { formatAmount } from "@/utils/common/formatAmount";
+import { useClients } from "../graphql/useClients";
 
 export function useFarmingDepositRewardsEarned({ farming, positionId }: { farming: EternalFarming; positionId: bigint }) {
     const [rewardEarned, setRewardEarned] = useState<bigint>(0n);
     const [bonusRewardEarned, setBonusRewardEarned] = useState<bigint>(0n);
 
+    const { infoClient } = useClients()
+
     const { data: rewardToken } = useSingleTokenQuery({
         variables: {
             tokenId: farming.rewardToken,
         },
+        client: infoClient
     });
 
     const { data: bonusRewardToken } = useSingleTokenQuery({
         variables: {
             tokenId: farming.bonusRewardToken,
         },
+        client: infoClient
     });
 
     const fetchDepositRewards = useCallback(() => {

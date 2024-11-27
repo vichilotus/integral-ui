@@ -8,7 +8,7 @@ import { IDerivedMintInfo } from "@/state/mintStore";
 import { TransactionType } from "@/state/pendingTransactionsStore";
 import { NonfungiblePositionManager } from "@cryptoalgebra/sdk";
 import { useMemo } from "react";
-import { Address, useAccount, useContractWrite } from "wagmi";
+import { Address, useAccount, useChainId, useContractWrite } from "wagmi";
 
 interface CollectFeesProps {
     mintInfo: IDerivedMintInfo;
@@ -19,6 +19,8 @@ interface CollectFeesProps {
 const CollectFees = ({ mintInfo, positionFeesUSD, positionId }: CollectFeesProps) => {
 
     const { address: account } = useAccount()
+    
+    const chainId = useChainId()
 
     const pool = mintInfo.pool
 
@@ -45,7 +47,8 @@ const CollectFees = ({ mintInfo, positionFeesUSD, positionId }: CollectFeesProps
 
     const { config: collectConfig } = usePrepareAlgebraPositionManagerMulticall({
         args: calldata && [calldata as `0x${string}`[]],
-        value: BigInt(value || 0)
+        value: BigInt(value || 0),
+        chainId: chainId as AlgebraChainId
     });
 
     const { data: collectData, write: collect } = useContractWrite(collectConfig)
@@ -66,7 +69,7 @@ const CollectFees = ({ mintInfo, positionFeesUSD, positionId }: CollectFeesProps
         <div className="text-left">
             <div className="font-bold text-xs">EARNED FEES</div>
             <div className="font-semibold text-2xl">
-                {collectedFees ? <span className="text-cyan-300 drop-shadow-cyan">{collectedFees}</span> : <Skeleton className="w-[100px] h-[30px]" />}
+                {collectedFees ? <span className="text-cyan-300">{collectedFees}</span> : <Skeleton className="w-[100px] h-[30px]" />}
             </div>
         </div>
         <Button size={'md'} disabled={!collect || zeroRewards || isLoading} onClick={() => collect && collect()}>

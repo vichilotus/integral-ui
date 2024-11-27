@@ -12,6 +12,7 @@ import { ADDRESS_ZERO, computePoolAddress, Currency, Percent, Trade, TradeType, 
 import { ChevronDownIcon, ChevronRightIcon, ZapIcon } from "lucide-react";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { Address, parseUnits } from 'viem';
+import { useChainId } from "wagmi";
 
 const SwapParams = () => {
 
@@ -24,6 +25,8 @@ const SwapParams = () => {
     const [slidingFee, setSlidingFee] = useState<number>();
 
     const { dynamicFeePlugin } = usePoolPlugins(poolAddress)
+
+    const chainId = useChainId()
 
     useEffect(() => {
 
@@ -60,7 +63,7 @@ const SwapParams = () => {
 
                     try {
                       beforeSwap = await pluginContract.simulate.beforeSwap([
-                        ALGEBRA_ROUTER,
+                        ALGEBRA_ROUTER[chainId],
                         ADDRESS_ZERO,
                         isZeroToOne,
                         trade.tradeType === TradeType.EXACT_INPUT ? 
@@ -95,7 +98,7 @@ const SwapParams = () => {
 
         getFees()
 
-    }, [trade, tradeState.fee])
+    }, [trade, tradeState.fee, chainId])
 
 
     const { realizedLPFee, priceImpact } = useMemo(() => {
@@ -163,9 +166,9 @@ const SwapParams = () => {
         </div>
     ) : trade !== undefined || tradeState.state === TradeState.LOADING ? (
         <div className="flex justify-center mb-1 bg-card-dark py-3 px-3 rounded-lg">
-            <Loader size={17} />
+            <Loader size={17} color={'black'} />
         </div>
-    ) : <div className="text-md mb-1 text-center text-white/70 bg-card-dark py-2 px-3 rounded-lg">
+    ) : <div className="text-md mb-1 text-center text-black/70 bg-card-dark py-2 px-3 rounded-lg">
         Select an amount for swap
     </div>;
 }

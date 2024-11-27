@@ -1,9 +1,9 @@
 import Navigation from "@/components/common/Navigation"
-import AlgebraLogo from "@/assets/algebra-logo.svg"
-import AlgebraIntegral from "@/assets/algebra-itegral.svg"
+import DaikonLogo from "@/assets/daikon-logo.svg"
+import DaikonMobileLogo from "@/assets/daikon-single-logo.svg"
 import { NavLink } from "react-router-dom"
 import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react"
-import { DEFAULT_CHAIN_ID, DEFAULT_CHAIN_NAME } from "@/constants/default-chain-id"
+import { DEFAULT_CHAIN_NAME } from "@/constants/default-chain-id"
 import { Button } from "@/components/ui/button"
 import { AlignJustify, UnplugIcon, WalletIcon } from "lucide-react"
 import Loader from "../Loader"
@@ -13,20 +13,28 @@ import { Address } from "viem"
 import { TransactionCard } from "../TransactionCard"
 import { useAccount } from "wagmi"
 import { usePendingTransactions, usePendingTransactionsStore } from "@/state/pendingTransactionsStore"
+import { Separator } from "@/components/ui/separator"
+import { ChainId } from "@cryptoalgebra/sdk"
 
 const Header = () => <header className="sticky top-4 z-10 grid grid-cols-3 justify-between items-center py-1 px-2 bg-card border border-card-border rounded-3xl gap-4">
-    <Algebra />
-    <Navigation />
-    <Account />
+    <div>
+        <Algebra />
+    </div>
+    <div className="mr-20">
+        <Navigation />
+    </div>
+    <div>
+        <Account />
+    </div>
 </header>
 
 const Algebra = () => <div className="flex items-center gap-2">
     <NavLink to={'/'}>
         <div className="flex items-center gap-2 py-1 pl-2 pr-3 bg-card rounded-3xl hover:bg-card-hover duration-200">
-            <div className="flex items-center justify-center w-[32px] h-[32px] rounded-full">
-                <img src={AlgebraLogo} width={25} height={25} />
+            <div className="block md:hidden flex items-center justify-center w-[32px] h-[32px] rounded-full">
+                <img src={DaikonMobileLogo} width={25} height={25} />
             </div>
-            <img className="hidden md:block" src={AlgebraIntegral} width={140} height={25} />
+            <img className="hidden md:block" src={DaikonLogo} width={120} height={25} />
         </div>
     </NavLink>
 </div>
@@ -45,10 +53,10 @@ const Account = () => {
 
     const { selectedNetworkId } = useWeb3ModalState()
 
-    if (selectedNetworkId !== DEFAULT_CHAIN_ID) return <div className="flex justify-end">
+    if (!selectedNetworkId || ![ChainId.BitlayerTestnet, ChainId.BitlayerMainnet].includes(selectedNetworkId)) return <div className="flex justify-end">
         <Button onClick={() => open({
             view: 'Networks'
-        })} size={'sm'} variant={'destructive'} className="hidden md:block">{`Connect to ${DEFAULT_CHAIN_NAME}`}</Button>
+        })} size={'sm'} variant={'destructive'} className="hidden md:block">{`Connect to ${DEFAULT_CHAIN_NAME[ChainId.BitlayerMainnet]}`}</Button>
         <Button onClick={() => open({
             view: 'Networks'
         })} size={'icon'} variant={'icon'} className="md:hidden text-red-500">
@@ -84,7 +92,7 @@ const Account = () => {
                         :
                         <Button
                             variant="ghost"
-                            className="flex font-normal items-center my-auto h-10 px-3 justify-center gap-2 bg-card-light/20 cursor-pointer border border-card-light hover:border-border/30 rounded-3xl transition-all duration-200"
+                            className="flex font-normal items-center my-auto h-10 px-3 justify-center gap-2 bg-card-dark/20 cursor-pointer border border-card-dark hover:border-border/30 rounded-3xl transition-all duration-200"
                             aria-label="Transaction history"
                         >
                             <AlignJustify size={20} />
@@ -104,9 +112,9 @@ const TransactionHistoryPopover = ({children}: {children: React.ReactNode}) => {
             <PopoverTrigger>
                 {children}
             </PopoverTrigger>
-            <PopoverContent className="w-fit max-h-80 flex flex-col gap-4 -translate-x-28 translate-y-2 max-xl:-translate-x-8 max-xs:-translate-x-4" sideOffset={6}>
+            <PopoverContent className="w-fit max-h-80 flex flex-col gap-4 -translate-x-28 text-black translate-y-2 max-xl:-translate-x-8 max-xs:-translate-x-4" sideOffset={6}>
                 Transaction History
-                <hr/>
+                <Separator className="bg-card-dark" />
                 <ul className="flex flex-col gap-4 w-64 overflow-auto ">
                     {Object.entries(pendingTransactions[account]).reverse().map(([hash, transaction]) => <TransactionCard key={hash} hash={hash as Address} transaction={transaction} />)}
                 </ul>

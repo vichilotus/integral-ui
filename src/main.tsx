@@ -19,7 +19,7 @@ import NewPositionPage from '@/pages/NewPosition';
 import CreatePoolPage from '@/pages/CreatePool/index.tsx';
 
 import { ApolloProvider } from '@apollo/client';
-import { infoClient } from './graphql/clients/index.tsx';
+import { infoClientMainnet } from './graphql/clients/index.tsx';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-        <ApolloProvider client={infoClient}>
+        <ApolloProvider client={infoClientMainnet}>
             <RouterProvider router={router} />
         </ApolloProvider>
     </React.StrictMode>

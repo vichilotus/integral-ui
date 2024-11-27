@@ -13,7 +13,7 @@ import {
 import { Bound } from '@cryptoalgebra/sdk';
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Address } from 'wagmi';
+import { Address, useChainId } from 'wagmi';
 import AmountsSection from '@/components/create-position/AmountsSection';
 import { ManageLiquidity } from '@/types/manage-liquidity';
 import { useCurrency } from '@/hooks/common/useCurrency';
@@ -23,12 +23,16 @@ type NewPositionPageParams = Record<'pool', Address>;
 const NewPositionPage = () => {
     const { pool: poolAddress } = useParams<NewPositionPageParams>();
 
+    const chainId = useChainId() 
+
     const { data: token0 } = useAlgebraPoolToken0({
         address: poolAddress,
+        chainId: chainId as AlgebraChainId
     });
 
     const { data: token1 } = useAlgebraPoolToken1({
         address: poolAddress,
+        chainId: chainId as AlgebraChainId
     });
 
     const currencyA = useCurrency(token0, true);

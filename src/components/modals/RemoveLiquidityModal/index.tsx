@@ -3,16 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider";
 import { usePrepareAlgebraPositionManagerMulticall } from "@/generated";
-import { farmingClient } from "@/graphql/clients";
 import { Deposit } from "@/graphql/generated/graphql";
 import { useTransactionAwait } from "@/hooks/common/useTransactionAwait";
+import { useClients } from "@/hooks/graphql/useClients";
 import { usePosition, usePositions } from "@/hooks/positions/usePositions";
 import { useBurnActionHandlers, useBurnState, useDerivedBurnInfo } from "@/state/burnStore";
 import { TransactionType } from "@/state/pendingTransactionsStore";
 import { useUserState } from "@/state/userStore";
 import { NonfungiblePositionManager, Percent } from "@cryptoalgebra/sdk";
 import { useEffect, useMemo, useState } from "react";
-import { Address, useAccount, useContractWrite } from "wagmi";
+import { Address, useAccount, useChainId, useContractWrite } from "wagmi";
 
 interface RemoveLiquidityModalProps {
     positionId: number;
@@ -34,6 +34,9 @@ const RemoveLiquidityModal = ({ positionId }: RemoveLiquidityModalProps) => {
     const { onPercentSelect } = useBurnActionHandlers()
 
     const derivedInfo = useDerivedBurnInfo(position, false);
+
+    const chainId = useChainId()
+    const { farmingClient } = useClients()
 
     const {
         position: positionSDK,
@@ -79,7 +82,8 @@ const RemoveLiquidityModal = ({ positionId }: RemoveLiquidityModalProps) => {
     const { config: removeLiquidityConfig } = usePrepareAlgebraPositionManagerMulticall({
         args: calldata && [calldata as `0x${string}`[]],
         value: BigInt(value || 0),
-        enabled: Boolean(calldata)
+        enabled: Boolean(calldata),
+        chainId: chainId as AlgebraChainId
     });
 
     const { data: removeLiquidityData, write: removeLiquidity } = useContractWrite(removeLiquidityConfig)
@@ -140,7 +144,7 @@ const RemoveLiquidityModal = ({ positionId }: RemoveLiquidityModalProps) => {
             });
 
         return () => clearInterval(interval);
-    }, [isSuccess]);
+    }, [isSuccess, farmingClient]);
 
     return <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>

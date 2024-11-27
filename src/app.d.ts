@@ -1,6 +1,8 @@
 declare global {
     type Account = `0x${string}`;
 
+    type AlgebraChainId = 200810 | 200901;
+
     type Maybe<T> = T | null | undefined;
     type MaybeArray<T> = T | T[] | null | undefined;
     type MaybePromise<T> = T | Promise<T> | null | undefined;

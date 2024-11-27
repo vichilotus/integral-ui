@@ -1,9 +1,15 @@
 import { TokenFieldsFragment, useNativePriceQuery } from "@/graphql/generated/graphql";
 import { useMemo } from "react";
 import { formatUnits } from "viem";
+import { useClients } from "../graphql/useClients";
 
 export function useRewardEarnedUSD({ token, reward }: { token: TokenFieldsFragment | null | undefined; reward: bigint }): number {
-    const { data: nativePrice } = useNativePriceQuery();
+
+    const { infoClient } = useClients()
+
+    const { data: nativePrice } = useNativePriceQuery({
+        client: infoClient
+    });
 
     return useMemo(() => {
         if (!token || !nativePrice) return 0;

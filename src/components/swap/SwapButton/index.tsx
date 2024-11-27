@@ -1,9 +1,6 @@
 import Loader from '@/components/common/Loader';
 import { Button } from '@/components/ui/button';
-import {
-    DEFAULT_CHAIN_ID,
-    DEFAULT_CHAIN_NAME,
-} from '@/constants/default-chain-id';
+import { DEFAULT_CHAIN_NAME } from '@/constants/default-chain-id';
 import { useApproveCallbackFromTrade } from '@/hooks/common/useApprove';
 import { useSwapCallback } from '@/hooks/swap/useSwapCallback';
 import useWrapCallback, { WrapType } from '@/hooks/swap/useWrapCallback';
@@ -16,6 +13,7 @@ import {
     computeRealizedLPFeePercent,
     warningSeverity,
 } from '@/utils/swap/prices';
+import { ChainId } from '@cryptoalgebra/sdk';
 import { useWeb3Modal, useWeb3ModalState } from '@web3modal/wagmi/react';
 import { useCallback, useMemo } from 'react';
 import { useAccount } from 'wagmi';
@@ -116,8 +114,8 @@ const SwapButton = () => {
 
     const priceImpactTooHigh = priceImpactSeverity > 3 && !isExpertMode;
 
-    const isWrongChain = selectedNetworkId !== DEFAULT_CHAIN_ID;
-
+    const isWrongChain = !selectedNetworkId || ![ChainId.BitlayerTestnet, ChainId.BitlayerMainnet].includes(selectedNetworkId);
+    
     if (!account) return <Button onClick={() => open()}>Connect Wallet</Button>;
 
     if (isWrongChain)
@@ -125,7 +123,7 @@ const SwapButton = () => {
             <Button
                 variant={'destructive'}
                 onClick={() => open({ view: 'Networks' })}
-            >{`Connect to ${DEFAULT_CHAIN_NAME}`}</Button>
+            >{`Connect to ${DEFAULT_CHAIN_NAME[ChainId.BitlayerMainnet]}`}</Button>
         );
 
     if (showWrap && wrapInputError)

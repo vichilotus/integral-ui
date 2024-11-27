@@ -1,6 +1,6 @@
 import { ALGEBRA_POSITION_MANAGER, FARMING_CENTER } from "@/constants/addresses";
 import { algebraPositionManagerABI } from "@/generated";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useChainId, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { useEffect } from "react";
 import { useFarmCheckApprove } from "./useFarmCheckApprove";
 import { useTransactionAwait } from "../common/useTransactionAwait";
@@ -9,11 +9,14 @@ import { TransactionType } from "@/state/pendingTransactionsStore";
 export function useFarmApprove(tokenId: bigint) {
     const APPROVE = true;
 
+    const chainId = useChainId()
+
     const { config } = usePrepareContractWrite({
-        address: tokenId ? ALGEBRA_POSITION_MANAGER : undefined,
+        address: tokenId ? ALGEBRA_POSITION_MANAGER[chainId] : undefined,
         abi: algebraPositionManagerABI,
         functionName: "approveForFarming",
-        args: [tokenId, APPROVE, FARMING_CENTER],
+        args: [tokenId, APPROVE, FARMING_CENTER[chainId]],
+        chainId: chainId as AlgebraChainId
     });
 
     const { data: data, writeAsync: onApprove } = useContractWrite(config);
