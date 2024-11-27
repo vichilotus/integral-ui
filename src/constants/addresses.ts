@@ -1,7 +1,7 @@
 import { Address } from "viem";
 
 export const POOL_INIT_CODE_HASH: Address =
-  "0x53a254b73c7f4f4a23175de0908ad4b30f3bc60806bd69bba905db6f24b991a5";
+  "0xb3fc09be5eb433d99b1ec89fd8435aaf5ffea75c1879e19028aa2414a14b3c85";
 
 export const ALGEBRA_FACTORY: Address =
   "0x99E317c0099F0fB8C5913db976d00fddeDB69583";
