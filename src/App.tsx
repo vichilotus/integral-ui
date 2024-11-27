@@ -10,11 +10,11 @@ import { defineChain } from 'viem'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
 
-const superseed = defineChain({
-  id: 53302,
-  name: 'Superseed',
-  network: 'superseed-sepolia',
-  nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+const botanix = defineChain({
+  id: 3636,
+  name: 'Botanix Testnet',
+  network: 'botanix-testnet',
+  nativeCurrency: { name: 'BTC', symbol: 'BTC', decimals: 18 },
   rpcUrls: {
     default: {
       http: [import.meta.env.VITE_INFURA_RPC],
@@ -25,15 +25,15 @@ const superseed = defineChain({
   },
   blockExplorers: {
     default: {
-      name: 'superseedExplorer',
-      url: 'https://sepolia-explorer.superseed.xyz/',
+      name: 'botanixExplorer',
+      url: 'https://testnet.botanixscan.io/',
     },
   },
   testnet: true,
 })
 
 
-const chains = [superseed]
+const chains = [botanix]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Algebra Integral', description: 'DEX Engine', url: 'https://integral.algebra.finance', icons: [''] } })
 
 createWeb3Modal({ 
@@ -41,9 +41,9 @@ createWeb3Modal({
   projectId, 
   chains,
   chainImages: {
-    53302: ETHLogo
+    3636: ETHLogo
   },
-  defaultChain: superseed,
+  defaultChain: botanix,
   themeVariables: {
     '--w3m-accent': '#2797ff'
   }

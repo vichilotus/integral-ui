@@ -554,10 +554,10 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@cryptoalgebra/sdk@npm:@cryptoalgebra/archswap-sdk@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@cryptoalgebra/archswap-sdk/-/archswap-sdk-1.0.1.tgz#0e858a2eec3cb705bd55c47656d55fdcb76e884d"
-  integrity sha512-JU6TQJKSZJb4ffNHS1T2hurwv9yx9Gn3UAvqA06nA5SbxB1d1hRwEpnrZ6nST1nku9wzQ3/7E025PfEHBrXPqw==
+"@cryptoalgebra/sdk@npm:@cryptoalgebra/archswap-sdk@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@cryptoalgebra/archswap-sdk/-/archswap-sdk-1.1.0.tgz#298f350bf4b6ad4f2b202faa690b58f282f72b73"
+  integrity sha512-N3JB7ltrkIgA3pKcI+uS7gztRZQGuPuVdeUmPEGHhRZB2wDhpH0sIHmJt4gocjhEFh5BrKMeTGZ3VHjwUXoWYg==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/address" "^5.7.0"
