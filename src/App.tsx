@@ -4,13 +4,35 @@ import './App.css'
 
 import { WagmiConfig } from 'wagmi'
 import Layout from "@/components/common/Layout"
-import { holesky } from "viem/chains"
-
 import ETHLogo from '@/assets/tokens/ether.svg'
+import { defineChain } from 'viem'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
 
-const chains = [holesky]
+const fchain = defineChain({
+  id: 1338,
+  name: 'FChain',
+  network: 'fchain',
+  nativeCurrency: { name: 'F', symbol: 'F', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: [import.meta.env.VITE_INFURA_RPC],
+    },
+    public: {
+      http: [import.meta.env.VITE_INFURA_RPC],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'fchainExplorer',
+      url: 'http://explorer-staging.fchain.xyz/',
+    },
+  },
+  testnet: true,
+})
+
+
+const chains = [fchain]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Algebra Integral', description: 'DEX Engine', url: 'https://integral.algebra.finance', icons: [''] } })
 
 createWeb3Modal({ 
@@ -18,9 +40,9 @@ createWeb3Modal({
   projectId, 
   chains,
   chainImages: {
-    17000: ETHLogo
+    1338: ETHLogo
   },
-  defaultChain: holesky,
+  defaultChain: fchain,
   themeVariables: {
     '--w3m-accent': '#2797ff'
   }
