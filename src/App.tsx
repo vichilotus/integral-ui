@@ -3,14 +3,40 @@ import './styles/_colors.css'
 import './App.css'
 
 import { WagmiConfig } from 'wagmi'
+import { defineChain } from 'viem'
 import Layout from "@/components/common/Layout"
-import { holesky } from "viem/chains"
 
 import ETHLogo from '@/assets/tokens/ether.svg'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
 
-const chains = [holesky]
+const bitfinity = defineChain({
+  id: 355113,
+  network: 'bitfinity-testnet',
+  name: 'Bitfinity Testnet',
+  nativeCurrency: { name: 'BTF', symbol: 'BTF', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: [import.meta.env.VITE_INFURA_RPC],
+    },
+    public: {
+      http: [import.meta.env.VITE_INFURA_RPC],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: 'Bitfinity Explorer',
+      url: 'https://explorer.testnet.bitfinity.network/',
+    },
+    default: {
+      name: 'Bitfinity Explorer',
+      url: 'https://explorer.testnet.bitfinity.network/',
+    },
+  },
+  testnet: true,
+})
+
+const chains = [bitfinity]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Algebra Integral', description: 'DEX Engine', url: 'https://integral.algebra.finance', icons: [''] } })
 
 createWeb3Modal({ 
@@ -18,9 +44,9 @@ createWeb3Modal({
   projectId, 
   chains,
   chainImages: {
-    17000: ETHLogo
+    355113: ETHLogo
   },
-  defaultChain: holesky,
+  defaultChain: bitfinity,
   themeVariables: {
     '--w3m-accent': '#2797ff'
   }
