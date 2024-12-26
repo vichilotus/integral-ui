@@ -3,9 +3,9 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
     overwrite: true,
     schema: [
-        'https://bitfinity-graph.algebra.finance/subgraphs/name/analytics',
-        'https://bitfinity-graph.algebra.finance/subgraphs/name/blocks',
-        'https://bitfinity-graph.algebra.finance/subgraphs/name/farms',
+        'INFO_GRAPH_HERE',
+        'BLOCKS_GRAPH_HERE',
+        'FARMS_GRAPH_HERE',
     ],
     documents: 'src/graphql/queries/!(*.d).{ts,tsx}',
     generates: {

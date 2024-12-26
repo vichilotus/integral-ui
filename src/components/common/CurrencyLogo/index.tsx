@@ -3,8 +3,7 @@ import React from "react";
 import { Address } from "wagmi";
 import USDTLogo from '@/assets/tokens/usdt.png'
 import USDCLogo from '@/assets/tokens/usdc.svg'
-import WBTCLogo from '@/assets/tokens/wbtc.svg'
-import EtherLogo from '@/assets/tokens/ether.svg'
+import MATICLogo from '@/assets/tokens/matic.svg'
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -17,13 +16,17 @@ interface CurrencyLogoProps {
 
 
 export const specialTokens: { [key: Address]: { symbol: string; logo: string } } = {
-    ['0x10253594a832f967994b44f33411940533302acb']: {
-        symbol: 'ETH',
-        logo: EtherLogo
+    ['0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270']: {
+        symbol: 'MATIC',
+        logo: MATICLogo
     },
-    ['0x83d4a9ea77a4dba073cd90b30410ac9f95f93e7c']: {
+    ['0x3c499c542cef5e3811e1192ce70d8cc03d5c3359']: {
         symbol: 'USDC',
         logo: USDCLogo
+    },
+    ['0xc2132d05d31c914a87c6611c10748aeb04b58e8f']: {
+        symbol: 'USDT',
+        logo: USDTLogo
     }
 }
 
@@ -41,7 +44,7 @@ const CurrencyLogo = ({ currency, size, className, style = {} }: CurrencyLogoPro
     }
 
     if (currency.isNative) {
-        return <img src={WBTCLogo} alt={'ETH'} width={size} height={size} className={classString} style={style} />
+        return <img src={MATICLogo} alt={'MATIC'} width={size} height={size} className={classString} style={style} />
     }
 
     return <div className={`${classString} flex items-center justify-center bg-white text-black`} style={{ minWidth: `${size}px`, minHeight: `${size}px`, width: `${size}px`, height: `${size}px`, ...style }}>
