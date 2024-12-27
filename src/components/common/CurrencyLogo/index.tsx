@@ -16,11 +16,11 @@ interface CurrencyLogoProps {
 
 
 export const specialTokens: { [key: Address]: { symbol: string; logo: string } } = {
-    ['0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270']: {
-        symbol: 'MATIC',
+    ['0xa5733b3a8e62a8faf43b0376d5faf46e89b3033e']: {
+        symbol: 'POL',
         logo: MATICLogo
     },
-    ['0x3c499c542cef5e3811e1192ce70d8cc03d5c3359']: {
+    ['0xec250e6856e14a494cb1f0abc61d72348c79f418']: {
         symbol: 'USDC',
         logo: USDCLogo
     },
