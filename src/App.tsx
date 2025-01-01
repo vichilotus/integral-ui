@@ -4,13 +4,13 @@ import './App.css'
 
 import { WagmiConfig } from 'wagmi'
 import Layout from "@/components/common/Layout"
-import { holesky } from "viem/chains"
+import { arbitrum } from "viem/chains"
 
 import ETHLogo from '@/assets/tokens/ether.svg'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
 
-const chains = [holesky]
+const chains = [arbitrum]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Algebra Integral', description: 'DEX Engine', url: 'https://integral.algebra.finance', icons: [''] } })
 
 createWeb3Modal({ 
@@ -18,9 +18,9 @@ createWeb3Modal({
   projectId, 
   chains,
   chainImages: {
-    17000: ETHLogo
+    42161: ETHLogo
   },
-  defaultChain: holesky,
+  defaultChain: arbitrum,
   themeVariables: {
     '--w3m-accent': '#2797ff'
   }
