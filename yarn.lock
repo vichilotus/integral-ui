@@ -559,10 +559,10 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@cryptoalgebra/custom-pools-sdk@npm:@cryptoalgebra/daikon-sdk@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@cryptoalgebra/daikon-sdk/-/daikon-sdk-1.0.1.tgz#41f2e5ea2bafc5eb6eadc0eaa8e9cfd3c55b0ec2"
-  integrity sha512-1d6vv7F89JATVRBqCU1CoChd3qww/WSKZFkKrfK3ZB8dzAcC1CgqiGxDIaMQ5O5pHi2QSIup9iBCqPd6kes6/Q==
+"@cryptoalgebra/custom-pools-sdk@npm:@cryptoalgebra/daikon-sdk@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@cryptoalgebra/daikon-sdk/-/daikon-sdk-2.0.0.tgz#7fda8061bf3986b077fb7a85085943e739c5cb6c"
+  integrity sha512-wIwTSto6ssPSPF/0DCGkNd4MmcI9ZtXwj8wG2Box/uwKWagLR+5wbqqhkkiUThvaC3PpKWKdViLuoWBbIldAdA==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/address" "^5.7.0"
@@ -576,12 +576,12 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@cryptoalgebra/router-custom-pools-and-sliding-fee@npm:@cryptoalgebra/router-daikon@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@cryptoalgebra/router-daikon/-/router-daikon-1.0.1.tgz#10cb5b667a3c28b2747f7ac414e0245258aa379c"
-  integrity sha512-byHgbxrIWHKKAZu5TztHgiIGh0lBCC+b8PReJgVPMIvw9kjc9Ff90gG/TMxU505siQ/tNbyN2WuU559pzh6aRg==
+"@cryptoalgebra/router-custom-pools-and-sliding-fee@npm:@cryptoalgebra/router-daikon@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@cryptoalgebra/router-daikon/-/router-daikon-2.0.0.tgz#40b5adcb868a99069d1632d28fc62d3b2d787a8c"
+  integrity sha512-CmNQrQbmRIZrPjfX2imsx9TbXEc+z+/5HNPQaY9r5CWQef3PvsGkuSd+BdURFeRXOqdjIFfgDSxxV8JDot3pzQ==
   dependencies:
-    "@cryptoalgebra/custom-pools-sdk" "npm:@cryptoalgebra/daikon-sdk@1.0.1"
+    "@cryptoalgebra/custom-pools-sdk" "npm:@cryptoalgebra/daikon-sdk@2.0.0"
     "@pancakeswap/sdk" "5.7.6"
     "@pancakeswap/swap-sdk-core" "1.0.0"
     "@pancakeswap/token-lists" "0.0.9"

@@ -6,15 +6,15 @@ import { WagmiConfig } from 'wagmi'
 import Layout from "@/components/common/Layout"
 import { defineChain } from "viem"
 
-import KakarotLogo from '@/assets/kakarot-logo.png'
+import BitlayerLogo from '@/assets/bitlayer-logo.png'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
 
-const kakarotChain = defineChain({
-  id: 920637907288165,
-  network: 'kakarot-sepolia',
-  name: 'Kakarot',
-  nativeCurrency: { name: 'Kakarot Ether', symbol: 'ETH', decimals: 18 },
+const bitlayerTestnet = defineChain({
+  id: 200810,
+  network: 'bitlayer-testnet',
+  name: 'Bitlayer',
+  nativeCurrency: { name: 'BTC', symbol: 'BTC', decimals: 18 },
   rpcUrls: {
     default: {
       http: [import.meta.env.VITE_INFURA_RPC],
@@ -25,24 +25,24 @@ const kakarotChain = defineChain({
   },
   blockExplorers: {
     etherscan: {
-      name: 'Kakarotscan',
-      url: 'https://sepolia.kakarotscan.org',
+      name: 'BitlayerScan',
+      url: 'https://testnet.btrscan.com',
     },
     default: {
-      name: 'Kakarotscan',
-      url: 'https://sepolia.kakarotscan.org',
+      name: 'BitlayerScan',
+      url: 'https://testnet.btrscan.com',
     },
   },
   contracts: {
     multicall3: {
-      address: '0x6d63b39017f379bfd0301293022581c6ef237a19',
-      blockCreated: 348826,
+      address: '0xf2a0bc44debd394076c67962bb4869fd43c78018',
+      blockCreated: 9880702,
     },
   },
   testnet: true,
 })
 
-const chains = [kakarotChain]
+const chains = [bitlayerTestnet]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Daikon DEX', description: 'Daikon DEX app', url: 'https://app.daikon.finance', icons: [''] } })
 
 createWeb3Modal({ 
@@ -50,9 +50,9 @@ createWeb3Modal({
   projectId, 
   chains, 
   chainImages: {
-    920637907288165: KakarotLogo
+    200810: BitlayerLogo
   },
-  defaultChain: kakarotChain,
+  defaultChain: bitlayerTestnet,
   themeVariables: {
     '--w3m-accent': '#ff8a34'
   },

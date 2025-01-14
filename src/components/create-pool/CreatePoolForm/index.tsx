@@ -128,7 +128,7 @@ const CreatePoolForm = () => {
         : [[calldata] as Address[]],
       value: BigInt(value || 0),
       enabled: Boolean(calldata),
-      gas: 6_999_999n
+      // gas: 6_999_999n
     });
 
   const { data: createBasePoolData, write: createBasePool } =

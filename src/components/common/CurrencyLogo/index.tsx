@@ -1,9 +1,8 @@
 import { Currency } from "@cryptoalgebra/custom-pools-sdk";
 import React from "react";
 import { Address } from "wagmi";
-import USDTLogo from '@/assets/tokens/usdt.png'
 import USDCLogo from '@/assets/tokens/usdc.svg'
-import EtherLogo from '@/assets/tokens/ether.svg'
+import BTCLogo from '@/assets/tokens/wbtc.svg'
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -15,15 +14,11 @@ interface CurrencyLogoProps {
 }
 
 export const specialTokens: { [key: Address]: { symbol: string; logo: string } } = {
-    ['0xe7f1725e7734ce288f8367e1bb143e90bb3f0512']: {
-        symbol: 'ETH',
-        logo: EtherLogo
+    ['0x83f62399f2a417db8ad34a4fc54d58240fc898e9']: {
+        symbol: 'BTC',
+        logo: BTCLogo
     },
-    ['0x2bf1004d9e80ca087bd1e089d75bc8c471995ac1']: {
-        symbol: 'USDT',
-        logo: USDTLogo
-    },
-    ['0x1b4c0bc8703d3af59322849be01559fdb920c904']: {
+    ['0x38a5c36fa8c8c9e4649b51fcd61810b14e7ce047']: {
         symbol: 'USDC',
         logo: USDCLogo
     }
@@ -43,7 +38,7 @@ const CurrencyLogo = ({ currency, size, className, style = {} }: CurrencyLogoPro
     }
 
     if (currency.isNative) {
-        return <img src={EtherLogo} alt={'ETH'} width={size} height={size} className={classString} style={style} />
+        return <img src={BTCLogo} alt={'BTC'} width={size} height={size} className={classString} style={style} />
     }
 
     return <div className={`${classString} flex items-center justify-center bg-muted-primary text-black`} style={{ minWidth: `${size}px`, minHeight: `${size}px`, width: `${size}px`, height: `${size}px`, ...style }}>
