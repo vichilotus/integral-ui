@@ -554,10 +554,10 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@cryptoalgebra/sdk@npm:@cryptoalgebra/bitfinity-sdk@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@cryptoalgebra/bitfinity-sdk/-/bitfinity-sdk-1.0.0.tgz#3af973720ee262a1aed26c85704026a8380555c9"
-  integrity sha512-vnvpLhnIKTGv85G5c5+m0p1aQ4nU/WrvrxNhhBl5DVwSvGNNzmOPRhKVIUPq4DU4KQQotzCadAyigZ4updAOlg==
+"@cryptoalgebra/sdk@npm:@cryptoalgebra/bitfinity-sdk@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@cryptoalgebra/bitfinity-sdk/-/bitfinity-sdk-1.1.0.tgz#16daaa06c41ecaea13a78176f00797396254f465"
+  integrity sha512-qkNETVVu6olWrI+o2iwdU1YQmewUAN9PYZmJcF0Qc/7m3FsdSw1+s98zVV0w0Z5F2prj71aJShRSGqA+RJQArQ==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/address" "^5.7.0"
