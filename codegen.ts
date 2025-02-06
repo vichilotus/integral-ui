@@ -3,9 +3,9 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
     overwrite: true,
     schema: [
-        'https://api.studio.thegraph.com/query/50593/integral-v12/version/latest',
-        'https://api.studio.thegraph.com/query/50593/goerli-blocks/version/latest',
-        'https://api.studio.thegraph.com/query/50593/integral-v12-farming/version/latest',
+        'https://deploy.kiaora.xyz/subgraphs/name/analytics',
+        'https://deploy.kiaora.xyz/subgraphs/name/blocklytics',
+        'https://deploy.kiaora.xyz/subgraphs/name/farms',
     ],
     documents: 'src/graphql/queries/!(*.d).{ts,tsx}',
     generates: {
