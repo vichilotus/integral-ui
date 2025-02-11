@@ -48,8 +48,8 @@ const CustomBar = ({
                     <stop offset='1' stopColor='rgba(255, 138, 52, 0.05)' />
                 </linearGradient>
             </defs>
-            {percent && <text x={x + 10} y={y - 10} fill="white" fontSize={'14px'} fontWeight={600} textAnchor="middle">{`${percent.toFixed(0)}%`}</text>}
-            {isCurrent && <text x={x + 10} y={y - 10} fill="white" fontSize={'14px'} fontWeight={600} textAnchor="middle">Current Price</text>}
+            {percent && <text x={x + 10} y={y - 10} fill="black" fontSize={'14px'} fontWeight={600} textAnchor="middle">{`${percent.toFixed(0)}%`}</text>}
+            {isCurrent && <text x={x + 10} y={y - 10} fill="black" fontSize={'14px'} fontWeight={600} textAnchor="middle">Current Price</text>}
             <rect x={x} y={y} fill={fill} width={width > 0 ? width : 0} height={height} rx="4" />
         </g>
     )
@@ -126,7 +126,7 @@ export function Chart({ formattedData, currencyA, currencyB, leftPrice, rightPri
                 if (!props?.payload || props.index % 2 === 0) return <text></text>
 
                 return (
-                    <text x={props.x} y={props.y + 20} fill="white" textAnchor="middle" fontSize={"12px"} width={"12px"}>
+                    <text x={props.x} y={props.y + 20} fill="black" textAnchor="middle" fontSize={"12px"} width={"12px"}>
                         {!isSmallScreen || isEdgeTick ? props.payload.value.toFixed(3) : ''}
                     </text>
                 )

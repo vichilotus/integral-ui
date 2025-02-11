@@ -115,12 +115,12 @@ const SwapParams = () => {
     if (wrapType !== WrapType.NOT_APPLICABLE) return
 
     return trade ? (
-        <div className="rounded text-white">
+        <div className="rounded text-black">
             <div className="flex justify-between">
-                <button className="flex items-center w-full text-md mb-1 text-center text-white bg-card-dark py-1 px-3 rounded-lg" onClick={() => toggleExpanded(!isExpanded)}>
+                <button className="flex items-center w-full text-md mb-1 text-center text-black bg-card-dark py-1 px-3 rounded-lg" onClick={() => toggleExpanded(!isExpanded)}>
                     {slidingFee && (
                         <div className="rounded select-none pointer px-1.5 py-1 flex items-center relative">
-                            {dynamicFeePlugin && <ZapIcon className="mr-2" strokeWidth={1} stroke="white" fill="white" size={16} />}
+                            {dynamicFeePlugin && <ZapIcon className="mr-2" strokeWidth={1} stroke="black" fill="black" size={16} />}
                             <span>
                                 {`${slidingFee?.toFixed(4)}% fee`}
                             </span>

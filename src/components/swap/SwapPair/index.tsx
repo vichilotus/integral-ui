@@ -6,15 +6,18 @@ import {
 } from '@/state/swapStore';
 import { SwapField, SwapFieldType } from '@/types/swap-field';
 import {
+    ADDRESS_ZERO,
     Currency,
     CurrencyAmount,
     maxAmountSpend,
     tryParseAmount,
 } from '@cryptoalgebra/sdk';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useChainId } from 'wagmi';
 import TokenCard from '../TokenCard';
 import { ChevronsUpDownIcon } from 'lucide-react';
 import useWrapCallback, { WrapType } from '@/hooks/swap/useWrapCallback';
+import { STABLECOINS } from '@/constants/tokens';
 
 const SwapPair = () => {
     const {
@@ -24,10 +27,12 @@ const SwapPair = () => {
         currencies,
     } = useDerivedSwapInfo();
 
+    const chainId = useChainId();
+
     const baseCurrency = currencies[SwapField.INPUT];
     const quoteCurrency = currencies[SwapField.OUTPUT];
 
-    const { independentField, typedValue } = useSwapState();
+    const { independentField, typedValue, actions: { selectCurrency } } = useSwapState();
     const dependentField: SwapFieldType =
         independentField === SwapField.INPUT
             ? SwapField.OUTPUT
@@ -133,6 +138,11 @@ const SwapPair = () => {
                   (parsedAmounts[dependentField]?.currency.decimals || 6) / 2
               ) ?? '',
     };
+
+    useEffect(() => {
+        selectCurrency(SwapField.INPUT, ADDRESS_ZERO)
+        selectCurrency(SwapField.OUTPUT, STABLECOINS[chainId].USDT.address as Account)
+    }, [chainId])
 
     return (
         <div className="flex flex-col gap-1 relative">

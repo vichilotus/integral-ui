@@ -76,8 +76,8 @@ const bitlayerMainnet = defineChain({
 
 
 const chains = [
-  bitlayerTestnet,
-  bitlayerMainnet
+  bitlayerMainnet,
+  bitlayerTestnet
 ]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Algebra Integral', description: 'DEX Engine', url: 'https://integral.algebra.finance', icons: [''] } })
 
