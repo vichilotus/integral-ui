@@ -141,7 +141,7 @@ const SwapPair = () => {
 
     useEffect(() => {
         selectCurrency(SwapField.INPUT, ADDRESS_ZERO)
-        selectCurrency(SwapField.OUTPUT, STABLECOINS[chainId].USDT.address as Account)
+        selectCurrency(SwapField.OUTPUT, STABLECOINS[chainId].USDC.address as Account)
     }, [chainId])
 
     return (
