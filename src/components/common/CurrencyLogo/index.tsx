@@ -27,7 +27,7 @@ export const specialTokens: { [key: Address]: { symbol: string; logo: string } }
         symbol: 'USDC',
         logo: USDCLogo
     },
-    ['0xf8c374ce88a3be3d374e8888349c7768b607c755']: {
+    ['0xf9d303b8288e8aeb98e3d921722393c6aaea5f50']: {
         symbol: 'USDC',
         logo: USDCLogo
     },
