@@ -3,14 +3,40 @@ import './styles/_colors.css'
 import './App.css'
 
 import { WagmiConfig } from 'wagmi'
+import { defineChain } from 'viem'
 import Layout from "@/components/common/Layout"
-import { arbitrum } from "viem/chains"
 
 import ETHLogo from '@/assets/tokens/ether.svg'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
 
-const chains = [arbitrum]
+const seiTestnet = defineChain({
+  id: 1328,
+  network: 'sei-testnet',
+  name: 'SEI Test',
+  nativeCurrency: { name: 'SEI', symbol: 'SEI', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: [import.meta.env.VITE_INFURA_RPC],
+    },
+    public: {
+      http: [import.meta.env.VITE_INFURA_RPC],
+    },
+  },
+  blockExplorers: {
+    etherscan: {
+      name: 'SeiScan',
+      url: 'https://seitrace.com',
+    },
+    default: {
+      name: 'SeiScan',
+      url: 'https://seitrace.com',
+    },
+  },
+  testnet: true,
+})
+
+const chains = [seiTestnet]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Algebra Integral', description: 'DEX Engine', url: 'https://integral.algebra.finance', icons: [''] } })
 
 createWeb3Modal({ 
@@ -18,9 +44,9 @@ createWeb3Modal({
   projectId, 
   chains,
   chainImages: {
-    42161: ETHLogo
+    1328: ETHLogo
   },
-  defaultChain: arbitrum,
+  defaultChain: seiTestnet,
   themeVariables: {
     '--w3m-accent': '#2797ff'
   }
