@@ -22,15 +22,19 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Address, useAccount } from "wagmi";
 import JSBI from "jsbi";
+import { useUserALMVaultsByPool } from "@/hooks/alm/useUserALMVaults";
+import ALMPositionCard from "@/components/position/ALMPositionCard";
 
 const PoolPage = () => {
     const { address: account } = useAccount();
 
     const { pool: poolId } = useParams() as { pool: Address };
 
-    const [selectedPositionId, selectPosition] = useState<number | null>();
+    const [selectedPositionId, selectPosition] = useState<string | null>();
 
     const [, poolEntity] = usePool(poolId);
+
+    const { userVaults, isLoading: areUserVaultsLoading } = useUserALMVaultsByPool(poolId, account);
 
     const { data: poolInfo } = useSinglePoolQuery({
         variables: {
@@ -132,10 +136,26 @@ const PoolPage = () => {
     const positionsData = useMemo(() => {
         if (!filteredPositions || !poolEntity || !deposits) return [];
 
-        return filteredPositions.map(({ positionId, position }, idx) => {
+        const filteredALMPositions =
+            userVaults?.map(
+                (vault) =>
+                    ({
+                        id: vault.vault.name,
+                        isALM: true,
+                        isClosed: false,
+                        outOfRange: false,
+                        range: "ALM Managed",
+                        liquidityUSD: vault.amountsUsd,
+                        feesUSD: 0,
+                        apr: Math.abs(vault.vault.apr),
+                        inFarming: false,
+                    } as FormattedPosition)
+            ) || [];
+
+        const positionsData = filteredPositions.map(({ positionId, position }, idx) => {
             const currentPosition = deposits.deposits.find((deposit) => Number(deposit.id) === Number(positionId));
             return {
-                id: positionId,
+                id: positionId.toString(),
                 isClosed: JSBI.EQ(position.liquidity, ZERO),
                 outOfRange: poolEntity.tickCurrent < position.tickLower || poolEntity.tickCurrent > position.tickUpper,
                 range: `${formatAmount(position.token0PriceLower.toFixed(6), 6)} — ${formatAmount(
@@ -148,7 +168,9 @@ const PoolPage = () => {
                 inFarming: Boolean(currentPosition?.eternalFarming),
             } as FormattedPosition;
         });
-    }, [filteredPositions, poolEntity, poolInfo, positionsFees, positionsAPRs, deposits]);
+
+        return [...filteredALMPositions, ...positionsData];
+    }, [filteredPositions, poolEntity, poolInfo, positionsFees, positionsAPRs, deposits, userVaults]);
 
     const selectedPosition = useMemo(() => {
         if (!positionsData || !selectedPositionId) return;
@@ -166,7 +188,7 @@ const PoolPage = () => {
                 <div className="col-span-2">
                     {!account ? (
                         <NoAccount />
-                    ) : positionsLoading || isFarmingLoading || areDepositsLoading ? (
+                    ) : positionsLoading || isFarmingLoading || areDepositsLoading || areUserVaultsLoading ? (
                         <LoadingState />
                     ) : noPositions ? (
                         <NoPositions poolId={poolId} />
@@ -195,6 +217,7 @@ const PoolPage = () => {
 
                 <div className="flex flex-col gap-8 w-full h-full">
                     <PositionCard farming={farmingInfo} closedFarmings={closedFarmings} selectedPosition={selectedPosition} />
+                    <ALMPositionCard userVault={userVaults?.find((v) => v.vault.name === selectedPositionId)} />
                 </div>
             </div>
         </PageContainer>
