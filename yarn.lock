@@ -554,10 +554,10 @@
     stream-browserify "^3.0.0"
     util "^0.12.4"
 
-"@cryptoalgebra/sdk@npm:@cryptoalgebra/custom-pools-and-sliding-fee-sdk@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@cryptoalgebra/custom-pools-and-sliding-fee-sdk/-/custom-pools-and-sliding-fee-sdk-1.2.0.tgz#6e67e024295e9c9ede6f5fb4d1a0f3f4bad289f5"
-  integrity sha512-Z8lXraEd2Kh5NosYrBWl+CXQ1PTd/UvLjOh42eW6mqqwOcs7lfIMjrqHXJNlD3/yQ4GY+mqrs14YCk8w+PudpA==
+"@cryptoalgebra/sdk@npm:@cryptoalgebra/morpheus-sdk@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@cryptoalgebra/morpheus-sdk/-/morpheus-sdk-1.0.0.tgz#a394b123e021865f2819380e4dc84688a3596e39"
+  integrity sha512-k9s8g9Pitf7teUZi+L5uAxl+D8QHsIcO75WbjmsTbppEu56d7Z2nB5S88d/61OUHCkW9yLVVQyL2RSRyeAP/2w==
   dependencies:
     "@ethersproject/abi" "^5.7.0"
     "@ethersproject/address" "^5.7.0"

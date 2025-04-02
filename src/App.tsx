@@ -3,14 +3,47 @@ import './styles/_colors.css'
 import './App.css'
 
 import { WagmiConfig } from 'wagmi'
+import { defineChain } from 'viem'
+
 import Layout from "@/components/common/Layout"
-import { holesky } from "viem/chains"
 
 import ETHLogo from '@/assets/tokens/ether.svg'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
 
-const chains = [holesky]
+export const monadTestnet = defineChain({
+  id: 10143,
+  network: 'monad-testnet',
+  name: 'Monad Testnet',
+  nativeCurrency: {
+    name: 'Testnet MON Token',
+    symbol: 'MON',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://testnet-rpc.monad.xyz'],
+    },
+    public: {
+      http: ['https://testnet-rpc.monad.xyz']
+    }
+  },
+  blockExplorers: {
+    default: {
+      name: 'Monad Testnet explorer',
+      url: 'https://testnet.monadexplorer.com',
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+      blockCreated: 251449,
+    },
+  },
+  testnet: true,
+})
+
+const chains = [monadTestnet]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Algebra Integral', description: 'DEX Engine', url: 'https://integral.algebra.finance', icons: [''] } })
 
 createWeb3Modal({ 
@@ -18,9 +51,9 @@ createWeb3Modal({
   projectId, 
   chains,
   chainImages: {
-    17000: ETHLogo
+    10143: ETHLogo
   },
-  defaultChain: holesky,
+  defaultChain: monadTestnet,
   themeVariables: {
     '--w3m-accent': '#2797ff'
   }

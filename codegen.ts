@@ -3,9 +3,9 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
     overwrite: true,
     schema: [
-        'https://api.studio.thegraph.com/query/50593/integral-v12/version/latest',
-        'https://api.studio.thegraph.com/query/50593/goerli-blocks/version/latest',
-        'https://api.studio.thegraph.com/query/50593/integral-v12-farming/version/latest',
+        'https://api.studio.thegraph.com/query/108142/analytics/V0.0.1',
+        'https://api.studio.thegraph.com/query/108142/blocks/v0.0.1',
+        'https://api.studio.thegraph.com/query/108142/farming/v0.0.1',
     ],
     documents: 'src/graphql/queries/!(*.d).{ts,tsx}',
     generates: {
