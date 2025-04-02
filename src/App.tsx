@@ -3,14 +3,46 @@ import './styles/_colors.css'
 import './App.css'
 
 import { WagmiConfig } from 'wagmi'
+import { defineChain } from 'viem'
+
 import Layout from "@/components/common/Layout"
-import { holesky } from "viem/chains"
 
 import ETHLogo from '@/assets/tokens/ether.svg'
 
 const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID
 
-const chains = [holesky]
+export const megaethTestnet = defineChain({
+  id: 6342,
+  name: 'MegaETH Testnet',
+  network: 'megaeth-testnet',
+  nativeCurrency: {
+    name: 'MegaETH Testnet Ether',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://carrot.megaeth.com/rpc'],
+    },
+    public: {
+      http: ['https://carrot.megaeth.com/rpc'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'MegaETH Testnet Explorer',
+      url: 'https://www.megaexplorer.xyz/',
+    },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+    },
+  },
+  testnet: true,
+})
+
+const chains = [megaethTestnet]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata: { name: 'Algebra Integral', description: 'DEX Engine', url: 'https://integral.algebra.finance', icons: [''] } })
 
 createWeb3Modal({ 
@@ -18,9 +50,9 @@ createWeb3Modal({
   projectId, 
   chains,
   chainImages: {
-    17000: ETHLogo
+    6342: ETHLogo
   },
-  defaultChain: holesky,
+  defaultChain: megaethTestnet,
   themeVariables: {
     '--w3m-accent': '#2797ff'
   }
