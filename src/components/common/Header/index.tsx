@@ -1,5 +1,7 @@
 import Navigation from "@/components/common/Navigation"
 import AlgebraLogo from "@/assets/algebra-logo.svg"
+import MonadLogo from "@/assets/monad_logo_big.png"
+import AmyFinanceLogo from "@/assets/amyfilogo.svg"
 import AlgebraIntegral from "@/assets/algebra-itegral.svg"
 import { NavLink } from "react-router-dom"
 import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react"
@@ -24,9 +26,9 @@ const Algebra = () => <div className="flex items-center gap-2">
     <NavLink to={'/'}>
         <div className="flex items-center gap-2 py-1 pl-2 pr-3 bg-card rounded-3xl hover:bg-card-hover duration-200">
             <div className="flex items-center justify-center w-[32px] h-[32px] rounded-full">
-                <img src={AlgebraLogo} width={25} height={25} />
+                <img src={MonadLogo} width={25} height={25} />
             </div>
-            <img className="hidden md:block" src={AlgebraIntegral} width={140} height={25} />
+            <img className="hidden md:block" src={AmyFinanceLogo} width={140} height={25} />
         </div>
     </NavLink>
 </div>
