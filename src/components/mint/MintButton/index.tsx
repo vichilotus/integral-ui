@@ -1,4 +1,4 @@
-import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
+/* import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi/react";
 import { useCallback, useMemo } from "react";
 import { useAccount } from "wagmi";
 import Loader from "@/components/common/Loader";
@@ -48,3 +48,4 @@ const SwapButton = () => {
     </>
   );
 };
+ */
