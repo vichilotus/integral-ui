@@ -57,7 +57,7 @@ const TokenCard = ({
     const handleInput = useCallback((value: string) => {
         if (value === '.') value = '0.';
         handleValueChange?.(value);
-    }, []);
+    }, [handleValueChange]);
 
     const handleTokenSelect = (newCurrency: Currency) => {
         setIsOpen(false);

@@ -44,8 +44,9 @@ const Account = () => {
     const pendingTxCount = account && pendingTransactions[account] ? Object.entries(pendingTransactions[account]).filter(([, transaction]) => transaction.loading).length : 0;
 
     const { selectedNetworkId } = useWeb3ModalState()
+    const chainId = selectedNetworkId ? parseInt(selectedNetworkId, 10) : 1;
 
-    if (selectedNetworkId !== DEFAULT_CHAIN_ID) return <div className="flex justify-end">
+    if (chainId !== DEFAULT_CHAIN_ID) return <div className="flex justify-end">
         <Button onClick={() => open({
             view: 'Networks'
         })} size={'sm'} variant={'destructive'} className="hidden md:block">{`Connect to ${DEFAULT_CHAIN_NAME}`}</Button>

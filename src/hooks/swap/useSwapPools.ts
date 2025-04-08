@@ -18,7 +18,7 @@ export function useSwapPools(
     loading: boolean
 } {
 
-    const [existingPools, setExistingPools] = useState<any[]>()
+    const [existingPools, setExistingPools] = useState<{ address: Address, liquidity: string, price: string, tick: string, fee: string, token0: TokenFieldsFragment, token1: TokenFieldsFragment }[] | undefined>()
 
     const allCurrencyCombinations = useAllCurrencyCombinations(currencyIn, currencyOut)
 
@@ -47,7 +47,7 @@ export function useSwapPools(
             //     address
             // }).read.globalState()))
 
-            const pools = poolsData.data && poolsData.data.pools.map(pool => ({ address: pool.id, liquidity: pool.liquidity, price: pool.sqrtPrice, tick: pool.tick, fee: pool.fee, token0: pool.token0, token1: pool.token1 }))
+            const pools = poolsData.data && poolsData.data.pools.map(pool => ({ address: pool.id as `0x${string}`, liquidity: pool.liquidity, price: pool.sqrtPrice, tick: pool.tick, fee: pool.fee, token0: pool.token0, token1: pool.token1 }))
 
             setExistingPools(pools)
 
@@ -55,7 +55,7 @@ export function useSwapPools(
 
         Boolean(allCurrencyCombinations.length) && getPools()
 
-    }, [allCurrencyCombinations])
+    }, [allCurrencyCombinations, getMultiplePools])
 
     return useMemo(() => {
 
